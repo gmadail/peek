@@ -4,7 +4,7 @@ Chrome extension to preview any website at multiple screen sizes side by side (d
 
 ![Viewport Sync icon](icons/icon128.png)
 
-![Desktop, tablet and mobile side by side, scrolled to the same section](screenshots/overview.png)
+![Desktop and mobile side by side](screenshots/overview.png)
 
 <table>
   <tr>
@@ -17,12 +17,12 @@ Chrome extension to preview any website at multiple screen sizes side by side (d
   </tr>
 </table>
 
-<sub>Screenshots use a fictional demo site.</sub>
+<sub>Screenshots use a placeholder demo page.</sub>
 
 ## Features
 
 - **Side-by-side screens** — Desktop (1440) and Mobile (402) by default, plus Laptop and Tablet ready to turn on.
-- **Custom screens** — add presets (iPhone SE, iPhone 16 Pro, iPad, Full HD…) or your own; rename, change type, width and height, or delete.
+- **Custom screens** — add presets (iPhone 17, iPhone Air, Galaxy S25, Pixel 10, iPad, MacBook, Full HD…) or your own; rename, change type, width and height, reset or delete.
 - **Resize with the mouse** — drag the right edge (width), bottom edge (height) or corner (both). Double-click the bottom edge to go back to auto height.
 - **Synced scrolling** — scroll one screen and the others follow to the same section, even when desktop and mobile layouts have different heights.
 - **Synced navigation** — click a link in one screen and the others open the same page.
