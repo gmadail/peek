@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "Viewport Sync",
+  "version": "1.1.0",
+  "description": "Preview any website at multiple screen sizes side by side, with synced scrolling and navigation.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Viewport Sync",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["declarativeNetRequest", "storage", "scripting", "webNavigation"],
+  "host_permissions": ["<all_urls>"],
+  "web_accessible_resources": [
+    { "resources": ["overlay.css"], "matches": ["<all_urls>"] }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["frame-ua.js"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "world": "MAIN"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["frame-sync.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
+}
