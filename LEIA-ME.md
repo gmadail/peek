@@ -21,6 +21,7 @@ Depois de mudares algum ficheiro, carrega no botão de recarregar da extensão e
 - **Largura**: muda diretamente no número por cima de cada ecrã.
 - **Redimensionar com o cursor**: arrasta a borda direita (largura), a de baixo (altura) ou o canto (as duas). Duplo clique na borda de baixo volta à altura automática.
 - **Tema**: o botão no canto superior direito muda entre claro e escuro (só muda a extensão, não os sites). Da primeira vez segue o tema do Windows.
+- **Idioma**: inglês por defeito; muda para português ou francês no menu EN/PT/FR da barra de topo.
 - **+ Ecrãs**: adiciona ecrãs predefinidos (iPhone, iPad, Full HD…) ou personalizados, muda nome, tipo, largura e altura, ou apaga.
 - **Tipo** (Desktop / Tablet / Mobile): nos tipos Tablet e Mobile o site também julga que está num iPhone ou iPad.
 - **Sincronizar scroll / navegação**: liga ou desliga cada um.

@@ -12,26 +12,40 @@
 
   // Ecrãs que se podem adicionar rapidamente.
   const PRESETS = [
+    // Telemóveis (tamanho CSS na vertical)
+    { name: 'Galaxy Z Fold (folded)', width: 344, height: 882, type: 'mobile' },
+    { name: 'Galaxy S25', width: 360, height: 780, type: 'mobile' },
     { name: 'iPhone SE', width: 375, height: 667, type: 'mobile' },
-    { name: 'iPhone 16 Pro', width: 402, height: 874, type: 'mobile' },
-    { name: 'iPhone 16 Pro Max', width: 440, height: 956, type: 'mobile' },
-    { name: 'Android', width: 412, height: 915, type: 'mobile' },
-    { name: 'iPad Mini', width: 744, height: 1133, type: 'tablet' },
-    { name: 'iPad', width: 820, height: 1180, type: 'tablet' },
-    { name: 'iPad Pro', width: 1024, height: 1366, type: 'tablet' },
-    { name: 'Portátil', width: 1280, height: null, type: 'desktop' },
-    { name: 'Desktop', width: 1440, height: null, type: 'desktop' },
+    { name: 'iPhone 17 / 17 Pro', width: 402, height: 874, type: 'mobile' },
+    { name: 'Pixel 10', width: 412, height: 923, type: 'mobile' },
+    { name: 'iPhone Air', width: 420, height: 912, type: 'mobile' },
+    { name: 'iPhone 17 Pro Max', width: 440, height: 956, type: 'mobile' },
+    // Tablets
+    { name: 'iPad mini', width: 744, height: 1133, type: 'tablet' },
+    { name: 'iPad / iPad Air 11"', width: 820, height: 1180, type: 'tablet' },
+    { name: 'iPad Pro 11"', width: 834, height: 1210, type: 'tablet' },
+    { name: 'iPad Air 13"', width: 1024, height: 1366, type: 'tablet' },
+    { name: 'iPad Pro 13"', width: 1032, height: 1376, type: 'tablet' },
+    // Computadores
+    { key: 'laptop', name: 'Laptop', width: 1280, height: null, type: 'desktop' },
+    { name: 'Laptop HD', width: 1366, height: 768, type: 'desktop' },
+    { key: 'desktop', name: 'Desktop', width: 1440, height: null, type: 'desktop' },
+    { name: 'MacBook Air 13"', width: 1470, height: 956, type: 'desktop' },
+    { name: 'MacBook Pro 14"', width: 1512, height: 982, type: 'desktop' },
+    { name: 'Laptop Full HD (125%)', width: 1536, height: 864, type: 'desktop' },
+    { name: 'MacBook Pro 16"', width: 1728, height: 1117, type: 'desktop' },
     { name: 'Full HD', width: 1920, height: null, type: 'desktop' },
+    { name: 'QHD', width: 2560, height: null, type: 'desktop' },
   ];
 
   // Ecrãs com que a extensão começa (e "Repor predefinidos").
   const DEFAULT_DEVICES = [
     { id: 'desktop', name: 'Desktop', width: 1440, height: null, type: 'desktop', on: true },
-    { id: 'laptop', name: 'Portátil', width: 1280, height: null, type: 'desktop', on: false },
+    { id: 'laptop', name: 'Laptop', width: 1280, height: null, type: 'desktop', on: false },
     { id: 'tablet', name: 'Tablet', width: 768, height: null, type: 'tablet', on: false },
     { id: 'mobile', name: 'Mobile', width: 402, height: null, type: 'mobile', on: true },
   ];
-  const DEFAULT_SETTINGS = { devices: DEFAULT_DEVICES, syncScroll: true, syncNav: true, zoom: 'fit', theme: 'auto' };
+  const DEFAULT_SETTINGS = { devices: DEFAULT_DEVICES, syncScroll: true, syncNav: true, zoom: 'fit', theme: 'auto', lang: 'en' };
 
   const SANDBOX = 'allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox ' +
     'allow-modals allow-downloads allow-pointer-lock allow-presentation allow-storage-access-by-user-activation';
@@ -39,55 +53,136 @@
 
   const svg = (inner) => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
   const ICON_SUN = svg('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>');
+  const ICON_RESET = svg('<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>');
   const ICON_MOON = svg('<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>');
 
   const TEMPLATE = `
   <div class="app" id="app">
     <header class="bar">
       <form id="urlForm" class="url">
-        <input id="url" type="text" spellcheck="false" autocomplete="off" placeholder="Endereço do site (ex: example.com)">
-        <button type="button" id="reload" class="icon-btn" title="Recarregar todos os ecrãs" aria-label="Recarregar todos os ecrãs">
+        <input id="url" type="text" spellcheck="false" autocomplete="off" data-i18n-placeholder="url_placeholder">
+        <button type="button" id="reload" class="icon-btn" data-i18n-title="reload">
           ${svg('<path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/>')}
         </button>
       </form>
-      <div id="chips" class="chips" aria-label="Ecrãs"></div>
-      <button type="button" id="manageBtn" class="btn">+ Ecrãs</button>
+      <div id="chips" class="chips"></div>
+      <button type="button" id="manageBtn" class="btn" data-i18n="screens_btn"></button>
       <div class="spacer"></div>
-      <label class="toggle"><input type="checkbox" id="syncScroll"> Sincronizar scroll</label>
-      <label class="toggle"><input type="checkbox" id="syncNav"> Sincronizar navegação</label>
-      <select id="zoom" title="Zoom">
-        <option value="fit">Ajustar à janela</option>
+      <label class="toggle"><input type="checkbox" id="syncScroll"> <span data-i18n="sync_scroll"></span></label>
+      <label class="toggle"><input type="checkbox" id="syncNav"> <span data-i18n="sync_nav"></span></label>
+      <select id="zoom" data-i18n-title="zoom">
+        <option value="fit" data-i18n="fit"></option>
         <option value="1">100%</option>
         <option value="0.75">75%</option>
         <option value="0.5">50%</option>
         <option value="0.33">33%</option>
       </select>
       <span id="scaleInfo" class="muted num"></span>
+      <select id="lang" class="lang" data-i18n-title="language">
+        <option value="en">EN</option>
+        <option value="pt">PT</option>
+        <option value="fr">FR</option>
+      </select>
       <button type="button" id="themeBtn" class="icon-btn"></button>
-      <button type="button" id="exitBtn" class="btn exit" title="Parar a pré-visualização e voltar ao site">
-        ${svg('<path d="M18 6 6 18M6 6l12 12"/>')} Sair
+      <button type="button" id="exitBtn" class="btn exit" data-i18n-title="exit_title">
+        ${svg('<path d="M18 6 6 18M6 6l12 12"/>')} <span data-i18n="exit"></span>
       </button>
     </header>
     <main id="stage">
-      <p id="empty" class="empty" hidden>Nenhum ecrã ligado. Clica num ecrã em cima para o mostrar.</p>
+      <p id="empty" class="empty" hidden data-i18n="empty"></p>
     </main>
     <dialog id="manage">
       <div class="dlg">
         <div class="dlg-head">
-          <h2>Ecrãs</h2>
-          <button type="button" id="closeDlg" class="icon-btn" title="Fechar" aria-label="Fechar">×</button>
+          <h2 data-i18n="dlg_title"></h2>
+          <button type="button" id="closeDlg" class="icon-btn" data-i18n-title="close">×</button>
         </div>
-        <p class="muted">Liga, edita ou apaga ecrãs. Altura vazia = usa a altura da janela.</p>
-        <div class="row rows-head"><span></span><span>Nome</span><span>Tipo</span><span>Largura</span><span>Altura</span><span></span></div>
+        <p class="muted" data-i18n="dlg_help"></p>
+        <div class="row rows-head"><span></span><span data-i18n="col_name"></span><span data-i18n="col_type"></span><span data-i18n="col_width"></span><span data-i18n="col_height"></span><span></span><span></span></div>
         <div id="rows"></div>
         <div class="dlg-foot">
-          <select id="addPreset"><option value="">+ Adicionar ecrã…</option></select>
-          <button type="button" id="resetBtn" class="btn ghost">Repor predefinidos</button>
+          <select id="addPreset"></select>
+          <button type="button" id="resetBtn" class="btn ghost" data-i18n="reset"></button>
         </div>
       </div>
     </dialog>
   </div>`;
 
+  // ---------- Textos (inglês por defeito, português e francês) ----------
+  const STRINGS = {
+    en: {
+      url_placeholder: 'Website address (e.g. example.com)', reload: 'Reload all screens', screens_btn: '+ Screens',
+      sync_scroll: 'Sync scroll', sync_nav: 'Sync navigation', zoom: 'Zoom', fit: 'Fit to window', language: 'Language',
+      exit: 'Exit', exit_title: 'Stop previewing and go back to the site',
+      empty: 'No screens on. Click a screen above to show it.',
+      dlg_title: 'Screens', close: 'Close', dlg_help: 'Turn screens on, edit or delete them. Empty height = use the window height.',
+      col_name: 'Name', col_type: 'Type', col_width: 'Width', col_height: 'Height',
+      add_screen: '+ Add screen…', custom: 'Custom…', reset: 'Reset to defaults', reset_one: 'Reset this screen',
+      reset_confirm: 'Reset to the default screens? Screens you created will be deleted.',
+      show_screen: 'Show this screen', hide_screen: 'Hide this screen', show: 'Show', delete_screen: 'Delete screen',
+      width_px: 'Width (px)', height_px: 'Height (px)',
+      rz_e: 'Drag to change the width',
+      rz_s: 'Drag to change the height · double-click = auto height',
+      rz_se: 'Drag to change width and height · double-click = auto height',
+      to_light: 'Switch to light mode', to_dark: 'Switch to dark mode',
+      type_desktop: 'Desktop', type_tablet: 'Tablet', type_mobile: 'Mobile', screen: 'Screen',
+    },
+    pt: {
+      url_placeholder: 'Endereço do site (ex: example.com)', reload: 'Recarregar todos os ecrãs', screens_btn: '+ Ecrãs',
+      sync_scroll: 'Sincronizar scroll', sync_nav: 'Sincronizar navegação', zoom: 'Zoom', fit: 'Ajustar à janela', language: 'Idioma',
+      exit: 'Sair', exit_title: 'Parar a pré-visualização e voltar ao site',
+      empty: 'Nenhum ecrã ligado. Clica num ecrã em cima para o mostrar.',
+      dlg_title: 'Ecrãs', close: 'Fechar', dlg_help: 'Liga, edita ou apaga ecrãs. Altura vazia = usa a altura da janela.',
+      col_name: 'Nome', col_type: 'Tipo', col_width: 'Largura', col_height: 'Altura',
+      add_screen: '+ Adicionar ecrã…', custom: 'Personalizado…', reset: 'Repor predefinidos', reset_one: 'Repor este ecrã',
+      reset_confirm: 'Repor os ecrãs predefinidos? Os ecrãs que criaste são apagados.',
+      show_screen: 'Mostrar este ecrã', hide_screen: 'Esconder este ecrã', show: 'Mostrar', delete_screen: 'Apagar ecrã',
+      width_px: 'Largura (px)', height_px: 'Altura (px)',
+      rz_e: 'Arrasta para mudar a largura',
+      rz_s: 'Arrasta para mudar a altura · duplo clique = altura automática',
+      rz_se: 'Arrasta para mudar largura e altura · duplo clique = altura automática',
+      to_light: 'Mudar para modo claro', to_dark: 'Mudar para modo escuro',
+      type_desktop: 'Desktop', type_tablet: 'Tablet', type_mobile: 'Mobile', screen: 'Ecrã',
+    },
+    fr: {
+      url_placeholder: 'Adresse du site (ex. : example.com)', reload: 'Recharger tous les écrans', screens_btn: '+ Écrans',
+      sync_scroll: 'Défilement synchronisé', sync_nav: 'Navigation synchronisée', zoom: 'Zoom', fit: 'Ajuster à la fenêtre', language: 'Langue',
+      exit: 'Quitter', exit_title: 'Arrêter l’aperçu et revenir au site',
+      empty: 'Aucun écran activé. Cliquez sur un écran en haut pour l’afficher.',
+      dlg_title: 'Écrans', close: 'Fermer', dlg_help: 'Activez, modifiez ou supprimez des écrans. Hauteur vide = hauteur de la fenêtre.',
+      col_name: 'Nom', col_type: 'Type', col_width: 'Largeur', col_height: 'Hauteur',
+      add_screen: '+ Ajouter un écran…', custom: 'Personnalisé…', reset: 'Réinitialiser', reset_one: 'Réinitialiser cet écran',
+      reset_confirm: 'Revenir aux écrans par défaut ? Les écrans que vous avez créés seront supprimés.',
+      show_screen: 'Afficher cet écran', hide_screen: 'Masquer cet écran', show: 'Afficher', delete_screen: 'Supprimer l’écran',
+      width_px: 'Largeur (px)', height_px: 'Hauteur (px)',
+      rz_e: 'Faites glisser pour changer la largeur',
+      rz_s: 'Faites glisser pour changer la hauteur · double-clic = hauteur auto',
+      rz_se: 'Faites glisser pour changer largeur et hauteur · double-clic = hauteur auto',
+      to_light: 'Passer en mode clair', to_dark: 'Passer en mode sombre',
+      type_desktop: 'Ordinateur', type_tablet: 'Tablette', type_mobile: 'Mobile', screen: 'Écran',
+    },
+  };
+  // Nomes dos ecrãs predefinidos em cada língua (mudam com a língua enquanto não forem renomeados).
+  const DEV_NAMES = {
+    desktop: { en: 'Desktop', pt: 'Desktop', fr: 'Ordinateur' },
+    laptop: { en: 'Laptop', pt: 'Portátil', fr: 'Portable' },
+    tablet: { en: 'Tablet', pt: 'Tablet', fr: 'Tablette' },
+    mobile: { en: 'Mobile', pt: 'Mobile', fr: 'Mobile' },
+    new: { en: 'New screen', pt: 'Novo ecrã', fr: 'Nouvel écran' },
+  };
+  const lang = () => (STRINGS[settings && settings.lang] ? settings.lang : 'en');
+  const t = (key) => STRINGS[lang()][key] ?? STRINGS.en[key] ?? key;
+  const nameOf = (d) => (!d.custom && DEV_NAMES[d.key || d.id]) ? DEV_NAMES[d.key || d.id][lang()] : d.name;
+
+  function applyI18n() {
+    root.querySelectorAll('[data-i18n]').forEach((n) => { n.textContent = t(n.dataset.i18n); });
+    root.querySelectorAll('[data-i18n-title]').forEach((n) => {
+      n.title = t(n.dataset.i18nTitle);
+      n.setAttribute('aria-label', t(n.dataset.i18nTitle));
+    });
+    root.querySelectorAll('[data-i18n-placeholder]').forEach((n) => { n.placeholder = t(n.dataset.i18nPlaceholder); });
+    ui.chips.setAttribute('aria-label', t('dlg_title'));
+  }
   // ---------- Estado ----------
   let isOpen = false;
   let host = null;     // elemento por cima da página
@@ -147,11 +242,11 @@
     return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
   function applyTheme() {
-    const t = currentTheme();
-    host.setAttribute('data-theme', t);
+    const theme = currentTheme();
+    host.setAttribute('data-theme', theme);
     // O botão mostra para onde vai: no claro mostra a lua, no escuro mostra o sol.
-    ui.themeBtn.innerHTML = t === 'dark' ? ICON_SUN : ICON_MOON;
-    const label = t === 'dark' ? 'Mudar para modo claro' : 'Mudar para modo escuro';
+    ui.themeBtn.innerHTML = theme === 'dark' ? ICON_SUN : ICON_MOON;
+    const label = t(theme === 'dark' ? 'to_light' : 'to_dark');
     ui.themeBtn.title = label;
     ui.themeBtn.setAttribute('aria-label', label);
   }
@@ -159,9 +254,9 @@
   // ---------- Barra de ecrãs ----------
   function renderChips() {
     ui.chips.replaceChildren(...settings.devices.map((d) => {
-      const b = el('button', 'chip', { type: 'button', title: d.on ? 'Esconder este ecrã' : 'Mostrar este ecrã' });
+      const b = el('button', 'chip', { type: 'button', title: t(d.on ? 'hide_screen' : 'show_screen') });
       b.setAttribute('aria-pressed', String(!!d.on));
-      b.append(d.name, el('small', '', { textContent: d.width }));
+      b.append(nameOf(d), el('small', '', { textContent: d.width }));
       b.onclick = () => { d.on = !d.on; save(); render(); };
       return b;
     }));
@@ -174,7 +269,7 @@
 
     const head = el('div', 'panel-head');
     p.name = el('span', 'name');
-    p.w = el('input', '', { type: 'number', min: 200, max: 4000, step: 1, title: 'Largura (px)' });
+    p.w = el('input', '', { type: 'number', min: 200, max: 4000, step: 1 });
     p.w.addEventListener('change', () => {
       p.device.width = clampW(p.w.value);
       p.w.value = p.device.width;
@@ -184,8 +279,8 @@
     });
     p.w.addEventListener('keydown', (e) => { if (e.key === 'Enter') p.w.blur(); });
     const unit = el('span', 'unit', { textContent: 'px' });
-    const close = el('button', 'close', { type: 'button', title: 'Esconder este ecrã', textContent: '×' });
-    close.setAttribute('aria-label', 'Esconder este ecrã');
+    const close = el('button', 'close', { type: 'button', textContent: '×' });
+    p.close = close;
     close.onclick = () => { p.device.on = false; save(); render(); };
     head.append(p.name, p.w, unit, close);
 
@@ -199,18 +294,15 @@
 
     // Pegas para redimensionar com o cursor: direita = largura, baixo = altura, canto = as duas.
     p.badge = el('div', 'size-badge num', { hidden: true });
-    const handles = [
-      ['e', 'Arrasta para mudar a largura'],
-      ['s', 'Arrasta para mudar a altura · duplo clique = altura automática'],
-      ['se', 'Arrasta para mudar largura e altura · duplo clique = altura automática'],
-    ].map(([mode, title]) => {
-      const hd = el('div', 'rz rz-' + mode, { title });
+    p.handles = ['e', 's', 'se'].map((mode) => {
+      const hd = el('div', 'rz rz-' + mode);
+      hd.dataset.mode = mode;
       hd.addEventListener('pointerdown', (e) => startResize(p, mode, e));
       if (mode !== 'e') hd.addEventListener('dblclick', () => { p.device.height = null; save(); layout(); });
       return hd;
     });
 
-    p.el.append(head, p.box, p.badge, ...handles);
+    p.el.append(head, p.box, p.badge, ...p.handles);
     return p;
   }
 
@@ -286,8 +378,12 @@
         ui.stage.insertBefore(p.el, next ? next.el : ui.empty);
       }
       p.device = d;
-      p.name.textContent = d.name;
-      p.name.title = d.name;
+      p.name.textContent = nameOf(d);
+      p.name.title = nameOf(d);
+      p.w.title = t('width_px');
+      p.close.title = t('hide_screen');
+      p.close.setAttribute('aria-label', t('hide_screen'));
+      p.handles.forEach((hd) => { hd.title = t('rz_' + hd.dataset.mode); });
       if (root.activeElement !== p.w) p.w.value = d.width;
       const nm = frameName(d);
       if (p.iframe.name !== nm) { // mudou o tipo (desktop/tablet/mobile) → recarrega
@@ -399,47 +495,80 @@
     ui.rows.replaceChildren(...settings.devices.map((d) => {
       const r = el('div', 'row');
 
-      const on = el('input', '', { type: 'checkbox', checked: !!d.on, title: 'Mostrar' });
+      const on = el('input', '', { type: 'checkbox', checked: !!d.on, title: t('show') });
       on.onchange = () => { d.on = on.checked; save(); render(); };
 
-      const name = el('input', '', { type: 'text', value: d.name });
-      name.oninput = () => { d.name = name.value.trim() || 'Ecrã'; save(); render(); };
+      // Repor: só nos ecrãs predefinidos, e só quando foram alterados.
+      const reset = el('button', 'icon-btn reset-one', { type: 'button', title: t('reset_one'), innerHTML: ICON_RESET });
+      reset.setAttribute('aria-label', t('reset_one'));
+      const refresh = () => { reset.hidden = !isModified(d); };
+      reset.onclick = () => {
+        const def = defaultOf(d);
+        Object.assign(d, { name: def.name, type: def.type, width: def.width, height: def.height, custom: false });
+        save(); render(); renderRows();
+      };
+
+      const name = el('input', '', { type: 'text', value: nameOf(d) });
+      name.oninput = () => { d.name = name.value.trim() || t('screen'); d.custom = true; save(); render(); refresh(); };
 
       const type = el('select');
-      for (const [v, t] of [['desktop', 'Desktop'], ['tablet', 'Tablet'], ['mobile', 'Mobile']]) {
-        type.append(new Option(t, v, false, d.type === v));
-      }
-      type.onchange = () => { d.type = type.value; save(); render(); };
+      for (const v of ['desktop', 'tablet', 'mobile']) type.append(new Option(t('type_' + v), v, false, d.type === v));
+      type.onchange = () => { d.type = type.value; save(); render(); refresh(); };
 
-      const w = el('input', '', { type: 'number', min: 200, max: 4000, value: d.width, title: 'Largura (px)' });
-      w.onchange = () => { d.width = clampW(w.value); w.value = d.width; save(); render(); };
+      const w = el('input', '', { type: 'number', min: 200, max: 4000, value: d.width, title: t('width_px') });
+      w.onchange = () => { d.width = clampW(w.value); w.value = d.width; save(); render(); refresh(); };
 
-      const h = el('input', '', { type: 'number', min: 200, max: 6000, value: d.height ?? '', placeholder: 'auto', title: 'Altura (px)' });
-      h.onchange = () => { d.height = parseH(h.value); h.value = d.height ?? ''; save(); render(); };
+      const h = el('input', '', { type: 'number', min: 200, max: 6000, value: d.height ?? '', placeholder: 'auto', title: t('height_px') });
+      h.onchange = () => { d.height = parseH(h.value); h.value = d.height ?? ''; save(); render(); refresh(); };
+      refresh();
 
-      const del = el('button', 'icon-btn', { type: 'button', title: 'Apagar ecrã', textContent: '×' });
-      del.setAttribute('aria-label', 'Apagar ecrã ' + d.name);
+      const del = el('button', 'icon-btn', { type: 'button', title: t('delete_screen'), textContent: '×' });
+      del.setAttribute('aria-label', t('delete_screen') + ' ' + nameOf(d));
       del.onclick = () => {
         settings.devices = settings.devices.filter((x) => x !== d);
         save(); render(); renderRows();
       };
 
-      r.append(on, name, type, w, h, del);
+      const resetCell = el('span', 'reset-cell');
+      resetCell.append(reset);
+      r.append(on, name, type, w, h, resetCell, del);
       return r;
     }));
   }
 
+  const defaultOf = (d) => DEFAULT_DEVICES.find((x) => x.id === d.id);
+  function isModified(d) {
+    const def = defaultOf(d);
+    if (!def) return false;
+    return !!d.custom || d.type !== def.type || d.width !== def.width || (d.height ?? null) !== (def.height ?? null);
+  }
+
   function fillPresets() {
-    const groups = { mobile: 'Mobile', tablet: 'Tablet', desktop: 'Desktop' };
-    for (const [type, label] of Object.entries(groups)) {
+    // "+ Add screen…" é só o texto do botão: não aparece como opção na lista.
+    const placeholder = new Option(t('add_screen'), '', true, true);
+    placeholder.disabled = true;
+    placeholder.hidden = true;
+    ui.addPreset.replaceChildren(placeholder);
+    for (const type of ['mobile', 'tablet', 'desktop']) {
       const g = el('optgroup');
-      g.label = label;
+      g.label = t('type_' + type);
       PRESETS.forEach((p, i) => {
-        if (p.type === type) g.append(new Option(`${p.name} — ${p.width}${p.height ? ' × ' + p.height : ''}`, String(i)));
+        if (p.type !== type) return;
+        const label = p.key ? DEV_NAMES[p.key][lang()] : p.name;
+        g.append(new Option(`${label} — ${p.width}${p.height ? ' × ' + p.height : ''}`, String(i)));
       });
       ui.addPreset.append(g);
     }
-    ui.addPreset.append(new Option('Personalizado…', 'custom'));
+    ui.addPreset.append(new Option(t('custom'), 'custom'));
+  }
+
+  // Muda a língua de toda a interface.
+  function applyLanguage() {
+    applyI18n();
+    applyTheme();
+    fillPresets();
+    render();
+    if (ui.manage.open) renderRows();
   }
 
   function wireUi() {
@@ -448,15 +577,16 @@
       ui.addPreset.value = '';
       if (!v) return;
       const base = v === 'custom'
-        ? { name: 'Novo ecrã', width: 1024, height: null, type: 'desktop' }
-        : PRESETS[+v];
+        ? { key: 'new', name: DEV_NAMES.new[lang()], width: 1024, height: null, type: 'desktop' }
+        : { ...PRESETS[+v] };
+      if (!base.key) base.custom = true;
       settings.devices.push({ ...base, id: 'd' + Date.now().toString(36), on: true });
       save(); render(); renderRows();
       const last = ui.rows.lastElementChild;
       if (last) { last.scrollIntoView({ block: 'nearest' }); last.querySelector('input[type=text]')?.select(); }
     };
     ui.resetBtn.onclick = () => {
-      if (!confirm('Repor os ecrãs predefinidos? Os ecrãs que criaste são apagados.')) return;
+      if (!confirm(t('reset_confirm'))) return;
       settings.devices = structuredClone(DEFAULT_DEVICES);
       save(); render(); renderRows();
     };
@@ -469,6 +599,7 @@
     ui.syncScroll.onchange = (e) => { settings.syncScroll = e.target.checked; save(); };
     ui.syncNav.onchange = (e) => { settings.syncNav = e.target.checked; save(); };
     ui.zoom.onchange = (e) => { settings.zoom = e.target.value; save(); layout(); };
+    ui.lang.onchange = (e) => { settings.lang = e.target.value; save(); applyLanguage(); };
     ui.exitBtn.onclick = () => close();
     ui.themeBtn.onclick = () => {
       settings.theme = currentTheme() === 'dark' ? 'light' : 'dark';
@@ -476,7 +607,6 @@
       applyTheme();
     };
   }
-
   // ---------- Abrir / fechar ----------
   async function loadCss() {
     if (cssSheet) return cssSheet;
@@ -493,6 +623,13 @@
     const [sheet, saved] = await Promise.all([loadCss(), store.get()]);
     settings = Object.assign(structuredClone(DEFAULT_SETTINGS), saved || {});
     if (!Array.isArray(settings.devices) || !settings.devices.length) settings.devices = structuredClone(DEFAULT_DEVICES);
+    if (!STRINGS[settings.lang]) settings.lang = 'en';
+    // Ecrãs predefinidos com o nome original (em qualquer língua) passam a seguir a língua escolhida.
+    for (const d of settings.devices) {
+      if (d.custom !== undefined) continue;
+      const names = DEV_NAMES[d.key || d.id];
+      d.custom = !(names && Object.values(names).includes(d.name));
+    }
 
     host = document.createElement('vsync-viewer');
     host.style.cssText = 'all:initial;position:fixed;inset:0;width:100vw;height:100vh;max-width:none;max-height:none;' +
@@ -519,6 +656,8 @@
     ui.syncScroll.checked = settings.syncScroll;
     ui.syncNav.checked = settings.syncNav;
     ui.zoom.value = settings.zoom;
+    ui.lang.value = settings.lang;
+    applyI18n();
     applyTheme();
     fillPresets();
     wireUi();

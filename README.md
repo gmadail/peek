@@ -4,6 +4,21 @@ Chrome extension to preview any website at multiple screen sizes side by side (d
 
 ![Viewport Sync icon](icons/icon128.png)
 
+![Desktop, tablet and mobile side by side, scrolled to the same section](screenshots/overview.png)
+
+<table>
+  <tr>
+    <td><img src="screenshots/dark.png" alt="Dark theme"></td>
+    <td><img src="screenshots/screens.png" alt="Screens settings"></td>
+  </tr>
+  <tr>
+    <td align="center">Dark theme</td>
+    <td align="center">Add, edit and resize screens</td>
+  </tr>
+</table>
+
+<sub>Screenshots use a fictional demo site.</sub>
+
 ## Features
 
 - **Side-by-side screens** — Desktop (1440) and Mobile (402) by default, plus Laptop and Tablet ready to turn on.
@@ -16,6 +31,7 @@ Chrome extension to preview any website at multiple screen sizes side by side (d
 - **Stays on while you browse** — type a new address in Chrome's address bar or refresh, and the viewer opens again in that tab (the icon shows **ON**).
 - **Zoom** — fit everything to the window, or pick a fixed percentage.
 - **Light and dark theme.**
+- **English, Portuguese and French** — English by default; switch language from the menu in the toolbar.
 
 ## Install
 
@@ -30,10 +46,8 @@ The extension isn't on the Chrome Web Store yet. To install it from this reposit
 ## Use
 
 - On any website, click the Viewport Sync icon. The site opens in all screens.
-- To go back to normal, click **Sair** (Exit) in the top right, or click the icon again. You return to the page you were on.
-- Settings (screens, sync options, zoom, theme) are saved in Chrome.
-
-> The interface is currently in Portuguese.
+- To go back to normal, click **Exit** in the top right, or click the icon again. You return to the page you were on.
+- Settings (screens, sync options, zoom, theme, language) are saved in Chrome.
 
 ## Limitations
 

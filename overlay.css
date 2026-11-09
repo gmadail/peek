@@ -1,4 +1,4 @@
-﻿/* Estilos do visualizador. Vivem dentro de uma "shadow root": não afetam o site nem são afetados por ele. */
+/* Estilos do visualizador. Vivem dentro de uma "shadow root": não afetam o site nem são afetados por ele. */
 :host {
   --bg: #e8e8ec;
   --surface: #ffffff;
@@ -236,7 +236,7 @@ dialog::backdrop { background: rgba(0, 0, 0, .3); }
 .dlg-head { display: flex; align-items: center; justify-content: space-between; }
 .dlg-head h2 { margin: 0; font-size: 16px; }
 .dlg p { margin: 0; }
-.row { display: grid; grid-template-columns: 34px 1fr 100px 80px 80px 32px; gap: 6px; align-items: center; }
+.row { display: grid; grid-template-columns: 34px 1fr 100px 80px 80px 30px 30px; gap: 6px; align-items: center; }
 .rows-head { color: var(--muted); }
 #rows { display: flex; flex-direction: column; gap: 6px; max-height: 55vh; overflow: auto; }
 .row input[type="text"], .row input[type="number"], .row select {
@@ -254,3 +254,6 @@ dialog::backdrop { background: rgba(0, 0, 0, .3); }
 .row .icon-btn:hover { color: var(--text); }
 .dlg-foot { display: flex; justify-content: space-between; gap: 8px; margin-top: 4px; }
 
+
+.reset-cell { display: flex; justify-content: center; }
+.row .reset-one[hidden] { display: none; }
