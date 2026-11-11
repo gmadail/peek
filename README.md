@@ -1,8 +1,8 @@
-# Viewport Sync
+# Peek
 
 Chrome extension to preview any website at multiple screen sizes side by side (desktop, tablet, mobile), with synced scrolling and navigation, and to inspect the styles of any element.
 
-![Viewport Sync icon](icons/icon128.png)
+![Peek icon](icons/icon128.png)
 
 ![Desktop and mobile side by side](screenshots/overview.png)
 
@@ -44,11 +44,11 @@ The extension isn't on the Chrome Web Store yet. To install it from this reposit
 2. Open `chrome://extensions` in Chrome.
 3. Turn on **Developer mode** (top right).
 4. Click **Load unpacked** and choose the unzipped folder.
-5. Pin the extension: click the puzzle icon in the toolbar, then the pin next to **Viewport Sync**.
+5. Pin the extension: click the puzzle icon in the toolbar, then the pin next to **Peek**.
 
 ## Use
 
-- On any website, click the Viewport Sync icon. The site opens in all screens.
+- On any website, click the Peek icon. The site opens in all screens.
 - To inspect, click **Inspect** in the top left, then click an element on any screen. While Inspect is on, clicks do not open links. Use the screen tabs in the panel to compare values, the path (e.g. `section > div > h2`) to select a parent, and **Esc** to clear the selection or leave the mode.
 - Sync options and language are in the settings menu (sliders icon).
 - To go back to normal, click **Exit** in the top right, or click the icon again. You return to the page you were on.

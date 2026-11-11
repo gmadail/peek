@@ -1,4 +1,4 @@
-# Viewport Sync
+# Peek
 
 Extensão do Chrome que mostra um site em vários tamanhos de ecrã lado a lado, com scroll e navegação sincronizados.
 

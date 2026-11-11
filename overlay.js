@@ -1,4 +1,4 @@
-// Viewport Sync.
+// Peek.
 // Abre por cima da própria página do site (dentro de uma "shadow root", isolado do site).
 // Como os ecrãs ficam no mesmo site que a página por baixo, os cookies e logins são os
 // normais desse site: aceitar cookies ou iniciar sessão fica gravado, como na navegação normal.
@@ -508,7 +508,7 @@
     if (!isExtPage) return; // por cima de um site não mexemos no endereço nem no título dele
     let h = '';
     try { h = new URL(currentUrl).host; } catch (e) {}
-    document.title = (h ? h + ' · ' : '') + 'Viewport Sync';
+    document.title = (h ? h + ' · ' : '') + 'Peek';
     try { history.replaceState(null, '', '?url=' + encodeURIComponent(currentUrl)); } catch (e) {}
   }
 
