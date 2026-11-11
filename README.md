@@ -1,6 +1,6 @@
 # Viewport Sync
 
-Chrome extension to preview any website at multiple screen sizes side by side (desktop, tablet, mobile), with synced scrolling and navigation.
+Chrome extension to preview any website at multiple screen sizes side by side (desktop, tablet, mobile), with synced scrolling and navigation, and to inspect the styles of any element.
 
 ![Viewport Sync icon](icons/icon128.png)
 
@@ -29,9 +29,10 @@ Chrome extension to preview any website at multiple screen sizes side by side (d
 - **Real mobile/tablet behaviour** — in Tablet and Mobile screens the site's JavaScript sees an iPhone/iPad user agent and touch support.
 - **Your cookies and logins** — the viewer opens on top of the site's own page, so cookies and sessions are the site's normal ones. Accept the cookie banner once and it's remembered; the other screens reload automatically.
 - **Stays on while you browse** — type a new address in Chrome's address bar or refresh, and the viewer opens again in that tab (the icon shows **ON**).
+- **Inspect mode** - switch from **Browse** to **Inspect** and click any element to see its size, margin, border and padding (box diagram), font, colors, contrast, radius, layout and shadow. The same element is marked on every screen, so you can compare its values on desktop and mobile. Click a value to copy it, or copy everything as CSS.
 - **Zoom** — fit everything to the window, or pick a fixed percentage.
 - **Light and dark theme.**
-- **English, Portuguese and French** — English by default; switch language from the menu in the toolbar.
+- **English, Portuguese and French** — English by default; switch language from the settings menu in the toolbar.
 
 ## Install
 
@@ -46,6 +47,8 @@ The extension isn't on the Chrome Web Store yet. To install it from this reposit
 ## Use
 
 - On any website, click the Viewport Sync icon. The site opens in all screens.
+- To inspect, click **Inspect** in the top left, then click an element on any screen. While Inspect is on, clicks do not open links. Use the screen tabs in the panel to compare values, the path (e.g. `section > div > h2`) to select a parent, and **Esc** to clear the selection or leave the mode.
+- Sync options and language are in the settings menu (sliders icon).
 - To go back to normal, click **Exit** in the top right, or click the icon again. You return to the page you were on.
 - Settings (screens, sync options, zoom, theme, language) are saved in Chrome.
 
@@ -60,6 +63,7 @@ The extension isn't on the Chrome Web Store yet. To install it from this reposit
 
 - `overlay.js` / `overlay.css` — the viewer UI, injected on top of the current page inside a shadow root (isolated from the site's styles).
 - `frame-sync.js` — runs inside each screen; reports and applies scroll position (matched by page section), link clicks and cookie-consent changes.
+- `frame-inspect.js` - runs inside each screen; in Inspect mode it marks the clicked element and reports its computed styles.
 - `frame-ua.js` — makes Tablet/Mobile screens report an iPad/iPhone user agent and touch support to the site's JavaScript.
 - `background.js` — toggles the viewer from the toolbar icon, keeps it on across page loads, and (only for that tab, only while the viewer is on) removes the headers that stop sites from being shown in frames.
 

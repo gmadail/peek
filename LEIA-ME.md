@@ -6,7 +6,7 @@ Extensão do Chrome que mostra um site em vários tamanhos de ecrã lado a lado,
 
 1. Abre `chrome://extensions`
 2. Liga o **Modo de programador** (canto superior direito)
-3. Clica em **Carregar expandida** e escolhe esta pasta (`visualizador-ecras`)
+3. Clica em **Carregar expandida** e escolhe esta pasta (`viewport-sync`)
 4. Fixa o ícone na barra: clica no ícone de puzzle e depois no pin
 
 Depois de mudares algum ficheiro, carrega no botão de recarregar da extensão em `chrome://extensions`.
@@ -21,13 +21,23 @@ Depois de mudares algum ficheiro, carrega no botão de recarregar da extensão e
 - **Largura**: muda diretamente no número por cima de cada ecrã.
 - **Redimensionar com o cursor**: arrasta a borda direita (largura), a de baixo (altura) ou o canto (as duas). Duplo clique na borda de baixo volta à altura automática.
 - **Tema**: o botão no canto superior direito muda entre claro e escuro (só muda a extensão, não os sites). Da primeira vez segue o tema do Windows.
-- **Idioma**: inglês por defeito; muda para português ou francês no menu EN/PT/FR da barra de topo.
+- **Definições** (ícone com dois cursores, na barra de topo): sincronizar scroll, sincronizar navegação e idioma (inglês por defeito, português ou francês).
 - **+ Ecrãs**: adiciona ecrãs predefinidos (iPhone, iPad, Full HD…) ou personalizados, muda nome, tipo, largura e altura, ou apaga.
 - **Tipo** (Desktop / Tablet / Mobile): nos tipos Tablet e Mobile o site também julga que está num iPhone ou iPad.
-- **Sincronizar scroll / navegação**: liga ou desliga cada um.
 - **Zoom**: "Ajustar à janela" encolhe tudo para caber; ou escolhe uma percentagem fixa.
 
 As definições ficam guardadas no Chrome.
+
+## Modo Inspecionar
+
+Na barra de topo, à esquerda, escolhes o modo: **Navegar** (usar o site normalmente) ou **Inspecionar**.
+
+- Com o Inspecionar ligado, clica num elemento em qualquer ecrã. Os cliques não abrem links.
+- O painel à direita mostra: tamanho, margin, border e padding (desenho da caixa), tipo de letra, tamanho e peso do texto, cores, contraste, borda, raio, layout e sombra.
+- O mesmo elemento fica marcado em todos os ecrãs. No topo do painel escolhes o ecrã (ex: Desktop ou Mobile) para comparar os valores.
+- Clica num valor para o copiar. **Copiar CSS** copia tudo de uma vez.
+- O caminho por baixo do nome (ex: `section > div > h2`) deixa selecionar um elemento pai.
+- **Esc** limpa a seleção. Outra vez **Esc** volta ao modo Navegar.
 
 ## Partilhar
 

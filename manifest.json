@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Viewport Sync",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "default_locale": "en",
   "description": "__MSG_description__",
   "icons": {
@@ -20,22 +20,45 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["declarativeNetRequest", "storage", "scripting", "webNavigation"],
-  "host_permissions": ["<all_urls>"],
+  "permissions": [
+    "declarativeNetRequest",
+    "storage",
+    "scripting",
+    "webNavigation"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "web_accessible_resources": [
-    { "resources": ["overlay.css"], "matches": ["<all_urls>"] }
+    {
+      "resources": [
+        "overlay.css"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
   ],
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["frame-ua.js"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "frame-ua.js"
+      ],
       "run_at": "document_start",
       "all_frames": true,
       "world": "MAIN"
     },
     {
-      "matches": ["<all_urls>"],
-      "js": ["frame-sync.js"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "frame-inspect.js",
+        "frame-sync.js"
+      ],
       "run_at": "document_start",
       "all_frames": true
     }
