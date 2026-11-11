@@ -6,6 +6,8 @@ Chrome extension to preview any website at multiple screen sizes side by side (d
 
 ![Desktop and mobile side by side](screenshots/overview.png)
 
+![Inspect mode: click an element to see its size, spacing and colors](screenshots/inspect.png)
+
 <table>
   <tr>
     <td><img src="screenshots/dark.png" alt="Dark theme"></td>
